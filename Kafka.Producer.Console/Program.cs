@@ -1,23 +1,21 @@
 ﻿using Confluent.Kafka;
-using Microsoft.AspNetCore.Mvc;
 using System;
 
-namespace Kafka.Producer.API.Controllers
+namespace Kafka.Producer
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class ProducerController : ControllerBase
+    class Program
     {
-        [HttpPost]
-        [ProducesResponseType(typeof(string), 201)]
-        [ProducesResponseType(400)]
-        [ProducesResponseType(500)]
-        public IActionResult Post([FromBody] string msg)
+        static void Main()
         {
-            return Created("", SendMessageByKafka(msg));
+            Console.WriteLine("Digite sua mensagem para fila: ");
+            string message = Console.ReadLine();
+
+            SendMessageByKafka(message);
+
+            Console.ReadKey();
         }
 
-        private string SendMessageByKafka(string message)
+        private static string SendMessageByKafka(string message)
         {
             var config = new ProducerConfig { BootstrapServers = "localhost:9092" };
 
