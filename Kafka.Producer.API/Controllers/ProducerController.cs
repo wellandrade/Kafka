@@ -15,7 +15,6 @@ namespace Kafka.Producer.API.Controllers
         public IActionResult Post([FromBody] string msg)
         {
             return Created("", SendMessageByKafka(msg));
-
         }
 
         private string SendMessageByKafka(string message)
@@ -26,7 +25,10 @@ namespace Kafka.Producer.API.Controllers
             {
                 try
                 {
-                    var sendResult = producer.ProduceAsync("fila_pedido", new Message<Null, string> { }).GetAwaiter().GetResult();
+                    var sendResult = producer
+                                        .ProduceAsync("fila_pedido", new Message<Null, string> { Value = message })
+                                        .GetAwaiter()
+                                        .GetResult();
 
                     return $"Mensagem { sendResult.Value } de { sendResult.TopicPartitionOffset }";
                 }
