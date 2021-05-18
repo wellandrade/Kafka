@@ -7,10 +7,19 @@ namespace Kafka.Producer
     {
         static void Main()
         {
-            Console.WriteLine("Digite sua mensagem para fila: ");
-            string message = Console.ReadLine();
+            int count = 0;
 
-            SendMessageByKafka(message);
+            string msg = "";
+
+            while (count < 200)
+            {
+                msg = $"{ count } ==> sendo enviada para fila as { DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss") }";
+
+                Console.WriteLine($"MSG_ENVIADA: { msg } ");
+
+                SendMessageByKafka(msg);
+                count++;
+            }
 
             Console.ReadKey();
         }
